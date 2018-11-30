@@ -1,0 +1,4 @@
+ssh -X nutta@128.178.6.29
+
+pass: tullio
+
