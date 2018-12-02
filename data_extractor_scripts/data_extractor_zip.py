@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 #Imports
@@ -14,14 +14,14 @@ from zipfile import ZipFile
 pd.set_option('display.max_columns', 100)
 
 
-# In[ ]:
+# In[2]:
 
 
 print('### --- MoTUS Data Extractor ---###')
 print('')
 
 
-# In[ ]:
+# In[3]:
 
 
 # General timestamp
@@ -44,10 +44,10 @@ print('')
 # L       milliseonds
 # U       microseconds
 # N       nanoseconds
-time_int='T'
+time_int='5T'
 #Data folder
-DATA_FOLDER = r'data_zip/'
-AVERAGE_RES_FOLDER = r'average_data/'
+DATA_FOLDER = r'/raid/motus/zipdata/'
+AVERAGE_RES_FOLDER = r'/raid/motus/average_data/'
 
 print('Time interval: ',time_int)
 print('Folder with zip files: ',DATA_FOLDER)
@@ -55,7 +55,7 @@ print('Folder for save results: ',AVERAGE_RES_FOLDER)
 print('')
 
 
-# In[ ]:
+# In[10]:
 
 
 ###  Anemometer averaging data  ###
@@ -73,15 +73,17 @@ for zip_folder in zip_folders:
     for day_file in zip_file.infolist():
         for i in items_anem:
             if day_file.filename.endswith("anem" + str(i) +'_20Hz'+'.txt'):
-                df_temp=pd.read_csv(zip_file.open(day_file.filename), header=None, comment=',', error_bad_lines=False,usecols=columns_anem, index_col=time_stp_position_anem)
+                df_temp=pd.read_csv(zip_file.open(day_file.filename), header=None, low_memory=False,comment=',', error_bad_lines=False,usecols=columns_anem, index_col=time_stp_position_anem)
                 df_temp.index=pd.to_datetime(df_temp.index,format='%d.%m.%Y %H:%M:%S',errors='coerce')
+                df_temp = df_temp.apply(pd.to_numeric, errors='coerce')
+                df_temp = df_temp.dropna(axis=0)
                 df_temp=df_temp.resample(time_int).mean()[:-1]
                 df_temp.to_csv(AVERAGE_RES_FOLDER+'anem'+ str(i)+'.csv', header=None, index=True, sep=',', mode='a')
 print('Anemometers OK') 
 print('')
 
 
-# In[ ]:
+# In[11]:
 
 
 ###  Temperature averaging data  ###
@@ -105,6 +107,8 @@ for day,zip_folder in enumerate(zip_folders):
                 
                 df_temp=pd.read_csv(zip_file.open(day_file.filename), header=None, comment=',', error_bad_lines=False,usecols=columns_temp, index_col=time_stp_position_temp)
                 df_temp.index=pd.to_datetime(df_temp.index,format='%d.%m.%Y %H:%M:%S',errors='coerce')
+                df_temp = df_temp.apply(pd.to_numeric, errors='coerce')
+                df_temp = df_temp.dropna(axis=0)
                 df_temp=df_temp.resample(time_int).mean()
                 df_temp.columns = [items_temp[1][k]]
                 if k==0:
@@ -120,7 +124,7 @@ print('Temperatures OK')
 print('')
 
 
-# In[ ]:
+# In[12]:
 
 
 ###  Radiometer averaging data  ###
@@ -139,6 +143,8 @@ for day,zip_folder in enumerate(zip_folders):
         if day_file.filename.endswith('radiometre'+'.txt'):
             df_temp=pd.read_csv(zip_file.open(day_file.filename), header=None, comment=',', error_bad_lines=False,usecols=columns_radio, index_col=time_stp_position_temp)
             df_temp.index=pd.to_datetime(df_temp.index,format='%d.%m.%Y %H:%M:%S',errors='coerce')
+            df_temp = df_temp.apply(pd.to_numeric, errors='coerce')
+            df_temp = df_temp.dropna(axis=0)
             df_temp=df_temp.resample(time_int).mean()
             df_temp.columns = items_radio
             if day==0:

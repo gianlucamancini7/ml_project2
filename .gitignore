@@ -1,2 +1,13 @@
 # slash plus name of the folder to ignore
 \2018-11-14_Mesures_MoTUS
+data_extractor_scripts/average_data_year/anem1.csv
+data_extractor_scripts/average_data_year/anem2.csv
+data_extractor_scripts/average_data_year/anem3.csv
+data_extractor_scripts/average_data_year/anem4.csv
+data_extractor_scripts/average_data_year/anem5.csv
+data_extractor_scripts/average_data_year/anem6.csv
+data_extractor_scripts/average_data_year/anem7.csv
+data_extractor_scripts/average_data_year/radiometer.csv
+data_extractor_scripts/average_data_year/surf_temp.csv
+data_extractor_scripts/data_zip/2018-07-15_Mesures_MoTUS.zip
+data_extractor_scripts/regression_mat_year.csv
