@@ -39,7 +39,9 @@ def split_hs_test(X_te,y_te,hs=np.arange(1.5,22,4)):
 
 
 def plot_ys(y_pred,y_te,save=False,interval=[100,200],name='graph'):
-"""Plot comparison between predicted and real values. Possibility of saving the result"""
+    
+    """Plot comparison between predicted and real values. Possibility of saving the result"""
+
     for idx,i in enumerate(y_pred):
         fig=plt.figure(figsize=(16,12))
         plt.subplot(221)
@@ -58,7 +60,7 @@ def plot_ys(y_pred,y_te,save=False,interval=[100,200],name='graph'):
         plt.legend()
         if save:
             savefig(name+str(idx)+'png')
-        else
+        else:
             plt.show()
         
         
