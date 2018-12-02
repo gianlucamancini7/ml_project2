@@ -35,10 +35,10 @@ def split_hs_test(X_te,y_te,hs=np.arange(1.5,22,4)):
     for i in hs:
         X_te_hs.append(X_te[X_te[:,1]==i])
         y_te_hs.append(y_te[X_te[:,1]==i])
-    return X_te_hs, X_te_hs
+    return X_te_hs, y_te_hs
 
 
-def plot_ys(y_pred,y_te,save=False,interval=[100,200],name='graph'):
+def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
     
     """Plot comparison between predicted and real values. Possibility of saving the result"""
 
@@ -59,7 +59,7 @@ def plot_ys(y_pred,y_te,save=False,interval=[100,200],name='graph'):
         plt.ylabel('u_y')
         plt.legend()
         if save:
-            savefig(name+str(idx)+'png')
+            savefig(path+name+str(idx)+'png')
         else:
             plt.show()
         
