@@ -62,6 +62,20 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
             savefig(path+name+str(idx)+'png')
         else:
             plt.show()
+            
+def split_data(X, ratio, seed=1):
+    # set seed
+    np.random.seed(seed)
+    # generate random indices
+    num_row = X.shape[0]
+    indices = np.random.permutation(num_row)
+    index_split = int(np.floor(ratio * num_row))
+    index_tr = indices[: index_split]
+    index_te = indices[index_split:]
+    # create split
+    x_tr = X.iloc[index_tr]
+    x_te = X.iloc[index_te]
+    return x_tr, x_te
         
         
         
