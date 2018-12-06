@@ -64,7 +64,7 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
             plt.savefig(path+name+'anem'+str(idx+1)+'.png',dpi=300)
             plt.close()
         else:
-            plt.show()
+            #plt.show()
             plt.close()
            
             
