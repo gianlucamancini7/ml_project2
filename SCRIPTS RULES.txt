@@ -2,4 +2,4 @@ SCRIPTS RULES
 -	Metrics used to evaluate each run are: mse and R^2
 -	Splitting ratios: training = 0.6, testing = 0.2, validation = 0.2 (referring to total database)
 -	Ridge regression deg polynomial expansion = 4
--	
+-	Y vector only u_x and u_y (predicting only horizontal velocity)
