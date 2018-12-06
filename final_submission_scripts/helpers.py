@@ -82,5 +82,11 @@ def split_data(X, ratio, seed=1):
     x_te = X.iloc[index_te]
     return x_tr, x_te
         
-        
-        
+
+def consistency_splitting(train_dim, test_dim ,validate_dim):
+    if train_dim+test_dim+validate_dim != 1:
+        raise ValueError('SplittingConsistecyError: Check splitting of the dataframe')
+    else:
+        print('Consistent Split')
+        print('')
+      

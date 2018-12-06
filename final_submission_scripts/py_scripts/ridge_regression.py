@@ -3,6 +3,7 @@
 
 # In[ ]:
 
+
 import matplotlib
 matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as plt
@@ -41,6 +42,24 @@ from sklearn.pipeline import make_pipeline
 from helpers import *
 
 
+# **Parameters**
+
+# In[ ]:
+
+
+seasonwise = True
+feature_selection = False
+alphas = np.logspace(-10,5,200)
+deg = 3
+train_dim = 0.6
+test_dim = 0.2
+validate_dim = 0.2
+
+consistency_splitting(train_dim, test_dim ,validate_dim)
+
+model = make_pipeline(StandardScaler(),PolynomialFeatures(deg,include_bias=True), RidgeCV(alphas))
+
+
 # In[ ]:
 
 
@@ -66,47 +85,61 @@ tot_df=pd.read_csv(DATA_FOLDER+'regression_mat_year.csv',index_col=0)
 tot_df = vectorize_wind_speed(tot_df)
 
 
-# Split train and test and take columns considered
+# Split season by season
 
 # In[ ]:
 
 
-X = np.array(tot_df.drop(columns=['u_x', 'u_y','u_z']))
-y = np.array(tot_df[['u_x', 'u_y']])
+if seasonwise:
+    df_spring, df_summer, df_autumn, df_winter = season_splitter(tot_df)
+    season_dfs=[df_spring, df_summer, df_autumn, df_winter]
+    
+else:
+    season_dfs=[tot_df]
 
 
 # In[ ]:
 
 
-X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3, random_state=42)
-
-
-# Split the test for different heighs
-
-# In[ ]:
-
-
-X_te_hs, y_te_hs = split_hs_test(X_te,y_te)
-
-
-# Regression
-
-# In[ ]:
-
-
-alphas=np.logspace(-10,5,200)
-degrees=np.arange(1,6)
-
+#Empty dataframes
 mses_results=[]
 r_2s_results=[]
 mag_avg_pred_results=[]
 mag_avg_true_results=[]
-for deg in degrees:
-    print('Degree in processing: ',deg)
-    #define pipeline
-    model = make_pipeline(StandardScaler(),PCA(n_components=12),PolynomialFeatures(deg,include_bias=True), RidgeCV(alphas))
 
+
+# In[ ]:
+
+
+for index,df in enumerate(season_dfs):
+    if len(season_dfs)>2:
+        names=['spring','summer','autumn','winter']
+    else:
+        names=['allyear']
+    
+    #Printing progress
+    print('Period under optimization: ',names[index])
+    
+    if feature_selection:
+        ### To be implemented (use idx to cleane the dataframes)
+        raise NotImplementedError('Not yet Implemented')
+    
+    #Dividing X and y
+    X = np.array(tot_df.drop(columns=['u_x', 'u_y','u_z']))
+    y = np.array(tot_df[['u_x', 'u_y']])
+    
+    #Splitting Matrices
+    X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=12)
+    X_te, X_va, y_te, y_va = train_test_split(X_temp, y_temp, test_size=validate_dim/(test_dim+validate_dim), random_state=12)
+    X_temp = None
+    y_temp = None
+    
+    #Make a list with differet heights
+    X_te_hs, y_te_hs = split_hs_test(X_te,y_te)
+    
+    #Fit the model 
     model.fit(X_tr,y_tr)
+    
     y_pred_hs=[]
     mag_avg_pred=[]
     for hs in X_te_hs:
@@ -114,9 +147,8 @@ for deg in degrees:
         y_pred_hs.append(ans)
         ans=np.sqrt(ans[:,0]**2+ans[:,1]**2).mean()
         mag_avg_pred.append(ans)
-    mag_avg_pred.append(deg)
+    mag_avg_pred.append(names[index])
     mag_avg_pred_results.append(mag_avg_pred)
-    #pd.DataFrame(mag_avg_pred).to_csv(RESULTS_FOLDER+'magnitude_average_pred'+'str(deg)'+'.txt',header=None, sep=',', mode='a')
 
     
     mses=[]
@@ -126,21 +158,18 @@ for deg in degrees:
         ans=y_te_hs[idx]
         ans=np.sqrt(ans[:,0]**2+ans[:,1]**2).mean()
         mag_avg_true.append(ans)
-    mses.append(deg)
-    mag_avg_true.append(deg)
+    mses.append(names[index])
+    mag_avg_true.append(names[index])
     mses_results.append(mses)
     mag_avg_true_results.append(mag_avg_true)
-    #pd.DataFrame(mses).to_csv(RESULTS_FOLDER+'mses_results.txt',header=None, sep=',', mode='a')
-    #pd.DataFrame(mag_avg_true).to_csv(RESULTS_FOLDER+'magnitude_average_true.txt',header=None, sep=',', mode='a')
     
     r_2s=[]
     for idx,i in enumerate(y_pred_hs):
         r_2s.append(r2_score(y_te_hs[idx],i))
-    r_2s.append(deg)
-    #pd.DataFrame(r_2s).to_csv(RESULTS_FOLDER+'r_2s_results.txt',header=None, sep=',', mode='a')
+    r_2s.append(names[index])
     r_2s_results.append(r_2s)
     
-    plot_ys(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=('deg'+str(deg)+'-'))
+    plot_ys(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=(names[index]+'-'))
 
 
 # In[ ]:
