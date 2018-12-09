@@ -3,7 +3,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
+#matplotlib.use('Agg') # Must be before importing matplotlib.pyplot or pylab!
 import matplotlib.pyplot as plt
 
 
@@ -64,8 +64,8 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
             plt.savefig(path+name+'anem'+str(idx+1)+'.png',dpi=300)
             plt.close()
         else:
-            #plt.show()
-            plt.close()
+            plt.show()
+#             plt.close()
            
             
 def split_data(X, ratio, seed=1):
