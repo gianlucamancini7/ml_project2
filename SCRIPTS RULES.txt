@@ -6,3 +6,4 @@ SCRIPTS RULES
 -	Discretization of y output: KbinDiscretizer with 'uniform' strategy 
 -	Random State of split_test_train is 50
 -	Splitting the data first splitting with train_test_split into training and 'temp' dataset; then consequently split temp into test and evaluation set. (first test_size=0.4, second test_size=0.5).
+-	Ridge alphas optimizer = np.logspace(-10,5,200)
