@@ -30,13 +30,13 @@ def vectorize_wind_speed(tot_df):
     return tot_df
 
 
-def split_hs_test(X_te,y_te,hs=np.arange(1.5,22,4)):
+def split_hs_test(X_te,y_te,h_pos=1,hs=np.arange(1.5,22,4)):
     """Creates a list of arrays for every different anemometer on the mast (not the top one)"""
     X_te_hs=[]
     y_te_hs=[]
     for i in hs:
-        X_te_hs.append(X_te[X_te[:,1]==i])
-        y_te_hs.append(y_te[X_te[:,1]==i])
+        X_te_hs.append(X_te[X_te[:,h_pos]==i])
+        y_te_hs.append(y_te[X_te[:,h_pos]==i])
     return X_te_hs, y_te_hs
 
 
