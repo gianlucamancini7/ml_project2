@@ -125,8 +125,8 @@ for index,df in enumerate(season_dfs):
         raise NotImplementedError('Not yet Implemented')
     
     #Dividing X and y
-    X = np.array(tot_df.drop(columns=['u_x', 'u_y','u_z']))
-    y = np.array(tot_df[['u_x', 'u_y']])
+    X = np.array(df.drop(columns=['u_x', 'u_y','u_z']))
+    y = np.array(df[['u_x', 'u_y']])
     
     #Splitting Matrices
     X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=12)
