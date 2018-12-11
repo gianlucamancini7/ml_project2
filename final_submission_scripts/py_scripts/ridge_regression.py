@@ -47,7 +47,7 @@ from helpers import *
 # In[ ]:
 
 
-seasonwise = True
+seasonwise = False
 feature_selection = False
 alphas = np.logspace(-10,5,200)
 deg = 3
@@ -129,8 +129,8 @@ for index,df in enumerate(season_dfs):
     y = np.array(df[['u_x', 'u_y']])
     
     #Splitting Matrices
-    X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=12)
-    X_te, X_va, y_te, y_va = train_test_split(X_temp, y_temp, test_size=validate_dim/(test_dim+validate_dim), random_state=12)
+    X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=50)
+    X_te, X_va, y_te, y_va = train_test_split(X_temp, y_temp, test_size=validate_dim/(test_dim+validate_dim), random_state=50)
     X_temp = None
     y_temp = None
     
