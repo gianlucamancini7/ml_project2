@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import matplotlib
@@ -17,7 +17,7 @@ import os
 pd.set_option('display.max_columns', 100)
 
 
-# In[2]:
+# In[ ]:
 
 
 # import scikit learn packages
@@ -36,7 +36,7 @@ from sklearn.decomposition import PCA
 from sklearn.pipeline import make_pipeline
 
 
-# In[3]:
+# In[ ]:
 
 
 from helpers import *
@@ -44,33 +44,23 @@ from helpers import *
 
 # **Parameters**
 
-# In[4]:
+# In[ ]:
 
 
-seasonwise = True
-feature_selection = True
-rnd_state=50
+seasonwise = False
+feature_selection = False
 alphas = np.logspace(-10,5,200)
 deg = 3
 train_dim = 0.6
 test_dim = 0.2
 validate_dim = 0.2
 
-seasons_list = ['spring','summer','autumn','winter']
-
 consistency_splitting(train_dim, test_dim ,validate_dim)
 
 model = make_pipeline(StandardScaler(),PolynomialFeatures(deg,include_bias=True), RidgeCV(alphas))
 
 
-# In[5]:
-
-
-if seasonwise==False:
-    feature_selection = False
-
-
-# In[6]:
+# In[ ]:
 
 
 #Local
@@ -81,24 +71,15 @@ DATA_FOLDER = '~/scripts/'
 RESULTS_FOLDER = '/raid/motus/results/ridgeregression/'
 
 
-# In[7]:
+# In[ ]:
 
 
 tot_df=pd.read_csv(DATA_FOLDER+'regression_mat_year.csv',index_col=0)
 
 
-# In[8]:
-
-
-if feature_selection:
-    df_features_sel = pd.read_csv('feature_for_ridge.txt',header=None)
-    df_features_sel = df_features_sel.drop(df_features_sel.columns[0], axis=1)
-    lst_features_sel=np.array(df_features_sel).tolist()
-
-
 # Transform absolute value and direction in vector components
 
-# In[9]:
+# In[ ]:
 
 
 tot_df = vectorize_wind_speed(tot_df)
@@ -106,7 +87,7 @@ tot_df = vectorize_wind_speed(tot_df)
 
 # Split season by season
 
-# In[10]:
+# In[ ]:
 
 
 if seasonwise:
@@ -117,7 +98,7 @@ else:
     season_dfs=[tot_df]
 
 
-# In[11]:
+# In[ ]:
 
 
 #Empty dataframes
@@ -127,41 +108,34 @@ mag_avg_pred_results=[]
 mag_avg_true_results=[]
 
 
-# In[12]:
+# In[ ]:
 
 
 for index,df in enumerate(season_dfs):
     if len(season_dfs)>2:
-        names=seasons_list
+        names=['spring','summer','autumn','winter']
     else:
         names=['allyear']
     
     #Printing progress
     print('Period under optimization: ',names[index])
     
-    #Dividing X and y
-    X = df.drop(columns=['u_x', 'u_y','u_z'])
     if feature_selection:
-        print('Features considered: ',lst_features_sel[index])
-        print('')
-        X=np.array(X[lst_features_sel[index]])
-        h_position=lst_features_sel[index].index('h')
-    else:
-        X=np.array(X)   
+        ### To be implemented (use idx to cleane the dataframes)
+        raise NotImplementedError('Not yet Implemented')
+    
+    #Dividing X and y
+    X = np.array(df.drop(columns=['u_x', 'u_y','u_z']))
     y = np.array(df[['u_x', 'u_y']])
     
     #Splitting Matrices
-    X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=rnd_state)
-    X_te, X_va, y_te, y_va = train_test_split(X_temp, y_temp, test_size=validate_dim/(test_dim+validate_dim), random_state=rnd_state)
+    X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=50)
+    X_te, X_va, y_te, y_va = train_test_split(X_temp, y_temp, test_size=validate_dim/(test_dim+validate_dim), random_state=50)
     X_temp = None
     y_temp = None
     
     #Make a list with differet heights
-    if feature_selection:
-        X_te_hs, y_te_hs = split_hs_test(X_te,y_te,h_pos=h_position)
-    else:
-        X_te_hs, y_te_hs = split_hs_test(X_te,y_te)
-    #print('X_shape: ',X.shape)
+    X_te_hs, y_te_hs = split_hs_test(X_te,y_te)
     
     #Fit the model 
     model.fit(X_tr,y_tr)
@@ -198,28 +172,28 @@ for index,df in enumerate(season_dfs):
     plot_ys(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=(names[index]+'-'))
 
 
-# In[13]:
+# In[ ]:
 
 
 mses_results_df=pd.DataFrame(mses_results)
 mses_results_df.to_csv(RESULTS_FOLDER+'mses_results.txt',header=None, sep=',', mode='a')
 
 
-# In[14]:
+# In[ ]:
 
 
 r_2s_results_df=pd.DataFrame(r_2s_results)
 r_2s_results_df.to_csv(RESULTS_FOLDER+'r_2s_results.txt',header=None, sep=',', mode='a')
 
 
-# In[15]:
+# In[ ]:
 
 
 pd.DataFrame(mag_avg_pred_results).to_csv(RESULTS_FOLDER+'magnitude_average_pred.txt',header=None, sep=',', mode='a')
 pd.DataFrame(mag_avg_true_results).to_csv(RESULTS_FOLDER+'magnitude_average_true.txt',header=None, sep=',', mode='a')
 
 
-# In[16]:
+# In[ ]:
 
 
 print('JOB Finished')
