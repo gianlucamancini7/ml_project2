@@ -7,6 +7,17 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
+
+def bins_proposal(y_continue,precision = 0.1):
+    
+    """for random forest discretizing the output, 
+    compute the appropriate bins according to the desired precision"""
+    
+    bins = []
+    for i in range(y_continue.shape[1]):
+        bins.append(int(math.ceil((np.max(y_continue[:,i])-np.min(y_continue[:,i]))/precision)))
+    return bins
+
 def season_splitter(df):
     """Returs 4 different datasets for each astronomical season in year 2018""" 
     df.index = pd.to_datetime(df.index)
@@ -46,14 +57,14 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
 
     for idx,i in enumerate(y_pred):
         plt.figure(figsize=(16,12), dpi=300)
-        plt.subplot(221)
+        plt.subplot(121)
         plt.gca().set_title('u_x')
         plt.plot(i[interval[0]:interval[1],0],'r-',label='u_x_pred')
         plt.plot(y_te[idx][interval[0]:interval[1],0],'b-',label='u_x_test')
         plt.xlabel('t')
         plt.ylabel('u_x')
         plt.legend()
-        plt.subplot(222)
+        plt.subplot(122)
         plt.gca().set_title('u_y')
         plt.plot(i[interval[0]:interval[1],1],'r-',label='u_y_pred')
         plt.plot(y_te[idx][interval[0]:interval[1],1],'b-',label='u_y_test')
@@ -61,12 +72,31 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
         plt.ylabel('u_y')
         plt.legend()
         if save:
-            plt.savefig(path+name+'anem'+str(idx+1)+'.png',dpi=300)
+            plt.savefig(path+name+'anem'+str(idx+1)+'.eps',dpi=300)
             plt.close()
         else:
             plt.show()
 #             plt.close()
-           
+    return
+
+def plot_ys_single(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
+
+    """Plot comparison between predicted and real values. Possibility of saving the result"""
+    for idx,i in enumerate(y_pred):
+        plt.figure(figsize=(16,12), dpi=300)
+        plt.gca().set_title('u_%s'%name)
+        plt.plot(i[interval[0]:interval[1],0],'r-',label='u_pred')
+        plt.plot(y_te[idx][interval[0]:interval[1],0],'b-',label='u_test')
+        plt.xlabel('t')
+        plt.ylabel('u')
+        plt.legend()
+        if save:
+            plt.savefig(path+name+'anem'+str(idx+1)+'.eps',dpi=300)
+            plt.close()
+        else:
+            plt.show()
+            plt.close() 
+    return
             
 def split_data(X, ratio, seed=1):
     # set seed
@@ -89,4 +119,67 @@ def consistency_splitting(train_dim, test_dim ,validate_dim):
     else:
         print('Consistent Split')
         print('')
+    return
       
+def split_train_evaluation_test(x,y,ratio_train,ratio_validation,ratio_test,random_state = 50):
+    
+    '''Split the data into train, evaluation, test set, 
+      according to the global ratios.'''
+    
+    if ratio_train+ratio_validation+ratio_test != 1:
+        raise ValueError('SplittingConsistecyError: Check splitting of the dataframe')
+    x_tr, x_te, y_tr, y_te = train_test_split(x, y, test_size=ratio_test, random_state = random_state)
+    x_tr, x_ev, y_tr, y_ev = train_test_split(x_tr, y_tr, test_size = ratio_validation/(1.0 - ratio_test), random_state = random_state)
+    return x_tr,y_tr,x_ev,y_ev,x_te,y_te
+
+def compute_mse_rsq(y_te_hs, y_pred_hs):
+    
+    '''Compute the mse and r square of the prediction with several outputs, 
+    in the format of a list seperated by height'''
+    
+    mse = np.zeros([y_te_hs[0].shape[1],len(y_te_hs)])
+    rsq = np.zeros([y_te_hs[0].shape[1],len(y_te_hs)])
+    for i in range(mse.shape[0]):
+        for j in range(mse.shape[1]):
+            mse[i,j] = np.mean(np.square(y_te_hs[j][:,i]-y_pred_hs[j][:,i]))
+            rsq[i,j] = 1-mse[i,j]/(np.std(y_te_hs[j][:,i]))**2
+    return mse, rsq
+
+def extract_important_features(feat_labels,importances, threshold):
+    if threshold > 1 or threshold < 0:
+        raise ValueError('Threshold should between 0 and 1')
+    indices = np.argsort(importances)[::-1]
+    importance_accum = 0
+    important_features = []
+    for f in range(len(importances)):
+        if importance_accum < threshold:
+            importance_accum = importance_accum + importances[indices[f]]
+            important_features.append(feat_labels[indices[f]])
+    return important_features
+
+def write_feature_importance(filetxt, importances,feat_labels, important_features):
+    indices = np.argsort(importances)[::-1]
+    for f in range(len(importances)):
+        filetxt.write("%2d) %-*s %f \n" % (f + 1, 50, feat_labels[indices[f]], importances[indices[f]]))
+    filetxt.write("\n The top 80% important features are: \n")
+    for i in range(len(important_features)):
+        filetxt.write("%s \n" % important_features[i])
+    filetxt.write("%i features on %i" % (len(important_features), len(importances)))
+    return
+
+def plot_feature_importance(importances,feat_labels,path,season):
+    plt.figure()
+    plt.title("Feature importances for season %s" % season)
+    plt.bar(range(len(importances)), importances, color="b", align="center")
+    plt.xticks(range(len(importances)), (u'%s' % feat_labels), fontsize=5, rotation=90)
+    plt.subplots_adjust(bottom=0.30)
+    plt.grid()
+    plt.savefig(path)
+    plt.close()
+    return
+        
+def write_rf_prediction(filetxt,bins,mse,rsq):
+    filetxt.write("bins are:\n %s \n"%bins)
+    filetxt.write("mse are:\n %s \n"%mse)
+    filetxt.write("rsq are:\n %s \n"%rsq)
+    return
