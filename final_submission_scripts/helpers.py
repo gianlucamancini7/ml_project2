@@ -183,3 +183,48 @@ def write_rf_prediction(filetxt,bins,mse,rsq):
     filetxt.write("mse are:\n %s \n"%mse)
     filetxt.write("rsq are:\n %s \n"%rsq)
     return
+
+def plot_height_average(u,u_true,mse,height,path,save=True,name="height_average"): 
+    '''For season average'''
+    ## u_average, 4 lines for 4 seasons. Increasing height
+    ## mse, 4 lines for 4 seasons, Increasing height
+    plt.figure(figsize=(16,12), dpi=300)
+    plt.subplot(221)
+    plt.gca().set_title('Spring')
+    plt.plot(u_true[0,:], height, label='true', color = 'r')
+    plt.errorbar(u[0,:], height, xerr = (np.sqrt(mse[0,:])),label='prediction', color = 'b')
+    plt.xlabel('u')
+    plt.ylabel('height')
+    plt.legend()
+    plt.grid()
+    plt.subplot(222)
+    plt.gca().set_title('Summer')
+    plt.plot(u_true[1,:], height, label='true', color = 'r')
+    plt.errorbar(u[1,:], height, xerr = (np.sqrt(mse[1,:])), label='prediction', color = 'b')
+    plt.xlabel('u')
+    plt.ylabel('height')
+    plt.legend()
+    plt.grid()
+    plt.subplot(223)
+    plt.gca().set_title('Autumn')
+    plt.plot(u_true[2,:], height, label='true', color = 'r')
+    plt.errorbar(u[2,:], height, xerr = (np.sqrt(mse[2,:])), label='prediction', color = 'b')
+    plt.xlabel('u')
+    plt.ylabel('height')
+    plt.legend()
+    plt.grid()
+    plt.subplot(224)
+    plt.gca().set_title('Winter')
+    plt.plot(u_true[3,:], height, label='true', color = 'r')
+    plt.errorbar(u[3,:], height, xerr = (np.sqrt(mse[3,:])), label='prediction', color = 'b')
+    plt.xlabel('u')
+    plt.ylabel('height')
+    plt.legend()
+    plt.grid()
+    if save:
+        plt.savefig(path+name+'.eps',dpi=300)
+        plt.close()
+    else:
+        plt.show()
+#        plt.close()
+    return
