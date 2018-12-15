@@ -56,7 +56,7 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
     """Plot comparison between predicted and real values. Possibility of saving the result"""
 
     for idx,i in enumerate(y_pred):
-        plt.figure(figsize=(16,12), dpi=300)
+        plt.figure(figsize=(16,7), dpi=300)
         plt.subplot(121)
         plt.gca().set_title('u_x')
         plt.plot(i[interval[0]:interval[1],0],'r-',label='u_x_pred')
