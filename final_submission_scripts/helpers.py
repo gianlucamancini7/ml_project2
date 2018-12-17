@@ -61,14 +61,14 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
         plt.gca().set_title('u_x')
         plt.plot(i[interval[0]:interval[1],0],'r-',label='u_x_pred')
         plt.plot(y_te[idx][interval[0]:interval[1],0],'b-',label='u_x_test')
-        plt.xlabel('t')
+        plt.xlabel('timestamp')
         plt.ylabel('u_x')
         plt.legend()
         plt.subplot(122)
         plt.gca().set_title('u_y')
         plt.plot(i[interval[0]:interval[1],1],'r-',label='u_y_pred')
         plt.plot(y_te[idx][interval[0]:interval[1],1],'b-',label='u_y_test')
-        plt.xlabel('t')
+        plt.xlabel('timestamp')
         plt.ylabel('u_y')
         plt.legend()
         if save:
@@ -81,12 +81,12 @@ def plot_ys(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
 
 def plot_ys_single(y_pred,y_te,path,save=False,interval=[100,200],name='graph'):
 
-    """Plot comparison between predicted and real values. Possibility of saving the result"""
+    """Plot comparison between predicted and real value. Possibility of saving the result"""
     for idx,i in enumerate(y_pred):
-        plt.figure(figsize=(16,12), dpi=300)
+        plt.figure(figsize=(8,7), dpi=300)
         plt.gca().set_title('u_%s'%name)
-        plt.plot(i[interval[0]:interval[1],0],'r-',label='u_pred')
-        plt.plot(y_te[idx][interval[0]:interval[1],0],'b-',label='u_test')
+        plt.plot(i[interval[0]:interval[1]],'r-',label='u_pred')
+        plt.plot(y_te[idx][interval[0]:interval[1]],'b-',label='u_test')
         plt.xlabel('t')
         plt.ylabel('u')
         plt.legend()
@@ -228,3 +228,10 @@ def plot_height_average(u,u_true,mse,height,path,save=True,name="height_average"
         plt.show()
 #        plt.close()
     return
+
+def magnitude_avg(arr):
+    """Compute average of magnitude depending on array shape"""
+    if len(arr.shape)==1:
+        return arr.mean()
+    else:
+        return np.sqrt(np.sum(np.square(arr),axis=1)).mean()

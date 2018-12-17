@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import matplotlib
@@ -17,7 +17,7 @@ import os
 pd.set_option('display.max_columns', 100)
 
 
-# In[2]:
+# In[ ]:
 
 
 # import scikit learn packages
@@ -36,7 +36,7 @@ from sklearn.decomposition import PCA
 from sklearn.pipeline import make_pipeline
 
 
-# In[3]:
+# In[ ]:
 
 
 from helpers import *
@@ -44,11 +44,12 @@ from helpers import *
 
 # **Parameters**
 
-# In[4]:
+# In[ ]:
 
 
 seasonwise = True
 feature_selection = True
+output_y_only = False
 rnd_state=50
 alphas = np.logspace(-10,5,200)
 deg = 3
@@ -63,14 +64,14 @@ consistency_splitting(train_dim, test_dim ,validate_dim)
 model = make_pipeline(StandardScaler(),PolynomialFeatures(deg,include_bias=True), RidgeCV(alphas))
 
 
-# In[5]:
+# In[ ]:
 
 
 if seasonwise==False:
     feature_selection = False
 
 
-# In[6]:
+# In[ ]:
 
 
 #Local
@@ -81,13 +82,13 @@ DATA_FOLDER = '~/scripts/'
 RESULTS_FOLDER = '/raid/motus/results/ridgeregression/'
 
 
-# In[7]:
+# In[ ]:
 
 
 tot_df=pd.read_csv(DATA_FOLDER+'regression_mat_year.csv',index_col=0)
 
 
-# In[8]:
+# In[ ]:
 
 
 if feature_selection:
@@ -98,7 +99,7 @@ if feature_selection:
 
 # Transform absolute value and direction in vector components
 
-# In[9]:
+# In[ ]:
 
 
 tot_df = vectorize_wind_speed(tot_df)
@@ -106,7 +107,7 @@ tot_df = vectorize_wind_speed(tot_df)
 
 # Split season by season
 
-# In[10]:
+# In[ ]:
 
 
 if seasonwise:
@@ -117,7 +118,7 @@ else:
     season_dfs=[tot_df]
 
 
-# In[11]:
+# In[ ]:
 
 
 #Empty dataframes
@@ -127,7 +128,7 @@ mag_avg_pred_results=[]
 mag_avg_true_results=[]
 
 
-# In[12]:
+# In[ ]:
 
 
 for index,df in enumerate(season_dfs):
@@ -147,8 +148,14 @@ for index,df in enumerate(season_dfs):
         X=np.array(X[lst_features_sel[index]])
         h_position=lst_features_sel[index].index('h')
     else:
-        X=np.array(X)   
-    y = np.array(df[['u_x', 'u_y']])
+        X=np.array(X)
+    
+    #Chose 1D or 2D output
+    if output_y_only:
+        y = np.array(df['u_y']) 
+    else:
+        y = np.array(df[['u_x', 'u_y']])
+    
     
     #Splitting Matrices
     X_tr, X_temp, y_tr, y_temp = train_test_split(X, y, test_size=test_dim+validate_dim, random_state=rnd_state)
@@ -171,7 +178,10 @@ for index,df in enumerate(season_dfs):
     for hs in X_te_hs:
         ans=model.predict(hs)
         y_pred_hs.append(ans)
-        ans=np.sqrt(ans[:,0]**2+ans[:,1]**2).mean()
+        
+        #ans=np.sqrt(np.sum(np.square(ans),axis=1)).mean()
+        ans=magnitude_avg(ans)
+        #print(ans.shape)
         mag_avg_pred.append(ans)
     mag_avg_pred.append(names[index])
     mag_avg_pred_results.append(mag_avg_pred)
@@ -182,7 +192,8 @@ for index,df in enumerate(season_dfs):
     for idx,i in enumerate(y_pred_hs):
         mses.append(mean_squared_error(y_te_hs[idx],i))
         ans=y_te_hs[idx]
-        ans=np.sqrt(ans[:,0]**2+ans[:,1]**2).mean()
+        #ans=np.sqrt(np.sum(np.square(ans),axis=1)).mean()
+        ans=magnitude_avg(ans)
         mag_avg_true.append(ans)
     mses.append(names[index])
     mag_avg_true.append(names[index])
@@ -195,31 +206,35 @@ for index,df in enumerate(season_dfs):
     r_2s.append(names[index])
     r_2s_results.append(r_2s)
     
-    plot_ys(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=(names[index]+'-'))
+    if output_y_only:
+        plot_ys_single(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=(names[index]+'-'))
+    else:
+        plot_ys(y_pred_hs,y_te_hs,RESULTS_FOLDER+'/images/',save=True,name=(names[index]+'-'))
+    
 
 
-# In[13]:
+# In[ ]:
 
 
 mses_results_df=pd.DataFrame(mses_results)
 mses_results_df.to_csv(RESULTS_FOLDER+'mses_results.txt',header=None, sep=',', mode='a')
 
 
-# In[14]:
+# In[ ]:
 
 
 r_2s_results_df=pd.DataFrame(r_2s_results)
 r_2s_results_df.to_csv(RESULTS_FOLDER+'r_2s_results.txt',header=None, sep=',', mode='a')
 
 
-# In[15]:
+# In[ ]:
 
 
 pd.DataFrame(mag_avg_pred_results).to_csv(RESULTS_FOLDER+'magnitude_average_pred.txt',header=None, sep=',', mode='a')
 pd.DataFrame(mag_avg_true_results).to_csv(RESULTS_FOLDER+'magnitude_average_true.txt',header=None, sep=',', mode='a')
 
 
-# In[16]:
+# In[ ]:
 
 
 print('JOB Finished')
