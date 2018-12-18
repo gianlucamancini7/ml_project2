@@ -16,12 +16,11 @@ pd.set_option('display.max_columns', 100)
 
 
 # import scikit learn packages
+from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.metrics import r2_score
-from sklearn.linear_model import RidgeCV
 from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import PolynomialFeatures
 
 from sklearn.pipeline import make_pipeline
 
@@ -37,11 +36,11 @@ from helpers import *
 # In[ ]:
 
 
-seasonwise = True
+seasonwise = False
 feature_selection = False
 output_y_only = False
 rnd_state=50
-alphas = np.logspace(-10,5,200)
+alphas = [1e-4,1e-4]
 deg = 3
 train_dim = 0.6
 test_dim = 0.2
@@ -53,7 +52,10 @@ seasons_list = ['spring','summer','autumn','winter']
 
 consistency_splitting(train_dim, test_dim ,validate_dim)
 
-model = make_pipeline(StandardScaler(),PolynomialFeatures(deg,include_bias=True), RidgeCV(alphas))
+if output_y_only:
+    alphas = alphas[0]
+
+model = make_pipeline(StandardScaler(), Ridge(alphas))
 print(model)
 print('')
 
@@ -67,12 +69,17 @@ if seasonwise==False:
 # In[ ]:
 
 
+
+
+# In[ ]:
+
+
 #Local
 # DATA_FOLDER = r'../data_extractor_scripts/'
 # RESULTS_FOLDER = r'./'
 #Server
 DATA_FOLDER = '~/scripts/'
-RESULTS_FOLDER = '/raid/motus/results/ridgeregression/'
+RESULTS_FOLDER = '/raid/motus/results/baseline/'
 
 
 # In[ ]:
@@ -161,8 +168,7 @@ for index,df in enumerate(season_dfs):
         X_te_hs, y_te_hs = split_hs_test(X_te,y_te,h_pos=h_position)
     else:
         X_te_hs, y_te_hs = split_hs_test(X_te,y_te)
-    #print('X_shape: ',X.shape)
-    
+        
     #Fit the model 
     model.fit(X_tr,y_tr)
     
