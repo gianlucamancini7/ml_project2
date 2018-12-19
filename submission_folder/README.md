@@ -1,22 +1,38 @@
 # Machine Learning Project 2
 
 Machine learning Project 2 – CS-433 – EPFL
+
 Fall 2018
+
 Authors: Gianluca Mancini, Tullio Nutta and Tianchu Zhang
 
-###---  File contents:  --###
+## Directory tree
 
-run.py = code of the best submission. Automatically creates a submission file with named ‘Group Higgs_Garrix Submission’. Can be directly run from the console (medium/long run time, good accuracy) or opened and mofyfied where suggested by the comments.
+│   README.md
+│
+├───data
+│   ├───average_data
+│   └───zip_files
+├───results
+│   ├───baseline
+│   ├───neural_network
+│   ├───random_forest
+│   └───ridge_regression
+├───scripts_data_extractor
+│   │   data_extractor.ipynb
+│   │   README.md
+│   │   regression_mat_builder.ipynb
+│   │
+│   └───.ipynb_checkpoints
+│           data_extractor-checkpoint.ipynb
+│           regression_mat_builder-checkpoint.ipynb
+│
+├───scripts_features_selection
+└───scripts_regression
 
-PCA.py = functions needed to perform Principal Component Analysis on a database and to predict the labels in the components space (Functionns referring to Feature Space 2)
+*IMPORTANT: All the scripts are set to run with the current folder tree architecture.  Any changes in the structure should be incorporated into the scripts in their respective paths definition.*
 
-physics.py = function needed to perform the physics reasoned feature selection on both train and test dataset (Functionns referring to Feature Space 1)
-
-implementations.py = Required solution method function together with some more basic ones needed for them.
-
-additional_implementations.py = All the function needed and coded for predicting the values in the run files add for all the other trials performed to finalize the answer.
-
-exploratory_notebook.ipyb = It contains all the scripts and trials used to come up with the conclusions written in the report. A lot of aspects of all the section are treated and reasoned more in depth with descriptions and code.
+## Hardware requirements
 
 
 ## Required packages
