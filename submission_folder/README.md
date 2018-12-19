@@ -8,27 +8,27 @@ Authors: Gianluca Mancini, Tullio Nutta and Tianchu Zhang
 
 ## Directory tree
 
-│   README.md
-│
-├───data
-│   ├───average_data
-│   └───zip_files
-├───results
-│   ├───baseline
-│   ├───neural_network
-│   ├───random_forest
-│   └───ridge_regression
-├───scripts_data_extractor
-│   │   data_extractor.ipynb
-│   │   README.md
-│   │   regression_mat_builder.ipynb
-│   │
-│   └───.ipynb_checkpoints
-│           data_extractor-checkpoint.ipynb
-│           regression_mat_builder-checkpoint.ipynb
-│
-├───scripts_features_selection
-└───scripts_regression
+│   README.md<br>
+│<br>
+├───data<br>
+│   ├───average_data<br>
+│   └───zip_files<br>
+├───results<br>
+│   ├───baseline<br>
+│   ├───neural_network<br>
+│   ├───random_forest<br>
+│   └───ridge_regression<br>
+├───scripts_data_extractor<br>
+│   │   data_extractor.ipynb<br>
+│   │   README.md<br>
+│   │   regression_mat_builder.ipynb<br>
+│   │<br>
+│   └───.ipynb_checkpoints<br>
+│           data_extractor-checkpoint.ipynb<br>
+│           regression_mat_builder-checkpoint.ipynb<br>
+│<br>
+├───scripts_features_selection<br>
+└───scripts_regression<br>
 
 *IMPORTANT: All the scripts are set to run with the current folder tree architecture.  Any changes in the structure should be incorporated into the scripts in their respective paths definition.*
 
