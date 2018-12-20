@@ -12,25 +12,32 @@ Fall 2018<br>
 │   README.md
 │
 ├───data
+│   │   README.md
+│   │
 │   ├───average_data
 │   └───zip_files
 ├───results
 │   ├───baseline
+│   │   └───images
 │   ├───neural_network
 │   ├───random_forest
 │   ├───results_analysis
 │   └───ridge_regression
+│       └───images
 ├───scripts_data_extractor
-│   │   data_extractor.ipynb
-│   │   README.md
-│   │   regression_mat_builder.ipynb
-│   │
-│   └───.ipynb_checkpoints
-│           data_extractor-checkpoint.ipynb
-│           regression_mat_builder-checkpoint.ipynb
+│       data_extractor.ipynb
+│       README.md
+│       regression_mat_builder.ipynb
 │
 ├───scripts_features_selection
+│       README.md
+│
 └───scripts_regression
+        baseline.ipynb
+        feature_for_ridge.txt
+        helpers.py
+        README.md
+        ridge_regression.ipynb
 ```
 
 *IMPORTANT: All the scripts are set to run with the current folder tree architecture. The directory structure is self-contained. Any changes in the structure should be incorporated into the scripts in their respective paths definition.*
