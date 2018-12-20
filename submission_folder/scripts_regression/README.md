@@ -11,7 +11,7 @@ Fall 2018<br>
 
 - **baseline.ipynb:** perform the baseline ridge regression. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default, results (plots and 4 ``.txt`` files) are saved in ``/results/baseline``. Be sure that an empty image folder is already present in the result target directory. Saved plot will be overwritten; data will be added on the ``.txt`` file if already present. Detailed information on how to deal with possible ``MemoryError`` are in the script under *Settings* markdown cell. Generally, it is useful to reduce the training matrix dimension. 
 
-- **neural_network.ipynb:**
+- **neural_network.ipynb:** provides a simple neural network architecture. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default the notebook output the mean squared errors and $R^2$ for different anemometers for different seasons. On top of that, the mean values of the wind speed at each anemometer is also saved in order to produce the wind speed profile inside the urban canyon. Also the evolution of the train and evaluation mse during the training of the network are saved as well as the visualization of the fitting of the netowork for different anemometers. The results are saved in ``/results/ neural_network``.  Saved plot will be overwritten.
 
 - **random_forest.ipynb:**
 
