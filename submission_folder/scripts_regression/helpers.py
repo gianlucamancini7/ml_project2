@@ -249,6 +249,16 @@ def magnitude_avg(arr):
         return np.sqrt(np.sum(np.square(arr),axis=1)).mean()
     return
  
+def std_avg(arr):
+    
+    """ Compute average of magnitude depending on array shape """
+    
+    if len(arr.shape)==1:
+        return arr.std()
+    else:
+        return np.sqrt(np.sum(np.square(arr),axis=1)).std()
+    return
+    
 def plot_height_average(u_compact, u_true, mse_compact, methods, path = '', name="compare_height_average", save=True): 
     
     '''
