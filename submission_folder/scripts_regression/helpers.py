@@ -324,7 +324,7 @@ def plot_method_comparasion(mse_compact, methods, ylabel = 'mse',path = '', name
         plt.xlabel('Anemometer Number')
         plt.ylabel(ylabel)
         plt.legend()
-        plt.grid()
+        plt.grid() 
         if name == 'compare_rsq':
             ax.set_ylim([-1, 1.5])
         else:

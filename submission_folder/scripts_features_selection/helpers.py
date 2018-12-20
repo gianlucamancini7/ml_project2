@@ -325,7 +325,7 @@ def plot_method_comparasion(mse_compact, methods, ylabel = 'mse',path = '', name
         plt.ylabel(ylabel)
         plt.legend()
         plt.grid()
-        if name == 'compare_rsq':
+        if name == 'compare_rsq': 
             ax.set_ylim([-1, 1.5])
         else:
             ax.set_ylim([np.min(mse_compact)-0.5, np.max(mse_compact)+0.5])
