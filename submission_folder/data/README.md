@@ -8,8 +8,6 @@ Fall 2018<br>
 
 ## Download instructions
 
-**REMARK:** The 
-
 - All the required data to run the algorithms can be found at [this link](https://enacshare.epfl.ch/d6GU2cHxX8pti3W7VSkPu) (download only). **REMARK:** The files downloaded from the link will be compressed into a ``.zip`` or ``.tar.gz``. Before placing them in the correct place, don’t forget to unzip the archive downloaded (so ``.._Mesures_MoTUS.zip`` need all to be separate in ``/data/zip_files`` as the ``.csv``’s divided in the described locations. 
 - ``regression_mat_year`` (~200MB) should be placed in ``/data``. **This in the only file required to run regression algorithms, all the rest is raw and intermediate processed files**.
 - All the ``.zip`` (~50GB) folders shoud be downloaded in ``/data/zip_files``.
