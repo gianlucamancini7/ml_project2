@@ -1,10 +1,10 @@
 #  README scripts_data_extractor
 
-Machine learning Project 2 – CS-433 – EPFL
-
-Fall 2018
-
-Authors: Gianluca Mancini, Tullio Nutta and Tianchu Zhang
+Machine learning Project 2 Option A – CS-433 – EPFL<br>
+Fall 2018<br>
+*Authors:* Gianluca Mancini, Tullio Nutta and Tianchu Zhang<br>
+*Laboratory:* LESO-PB – Solar Energy and Building Physics Laboratory<br>
+*Supervisors:* Roberto Castello and Dasaraden Mauree
 
 ## Scripts info
 
