@@ -7,9 +7,9 @@ Fall 2018<br>
 *Supervisors:* Roberto Castello and Dasaraden Mauree
 
 ## Scripts info
-- **ridge_regression.ipynb:** perform the cross- validated ridge regression. Description of all the settings of the scripts is contained inside under *settings* markdown cell. By default, results (plots and 4 ``.txt`` files) are saved in ``/results/ ridge_regression``. Be sure that an empty image folder is already present in the result target directory. Saved plot will be overwritten; data will be added on the ``.txt`` file if already present.
+- **ridge_regression.ipynb:** perform the cross- validated ridge regression. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default, results (plots and 4 ``.txt`` files) are saved in ``/results/ ridge_regression``. Be sure that an empty image folder is already present in the result target directory. Saved plot will be overwritten; data will be added on the ``.txt`` file if already present. Detailed information on how to deal with possible ``MemoryError`` are in the script under *Settings* markdown cell. Generally, it is useful to reduce the training matrix dimension. 
 
-- **baseline.ipynb:** perform the baseline ridge regression. Description of all the settings of the scripts is contained inside under *settings* markdown cell. By default, results (plots and 4 ``.txt`` files) are saved in ``/results/baseline``. Be sure that an empty image folder is already present in the result target directory. Saved plot will be overwritten; data will be added on the ``.txt`` file if already present.
+- **baseline.ipynb:** perform the baseline ridge regression. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default, results (plots and 4 ``.txt`` files) are saved in ``/results/baseline``. Be sure that an empty image folder is already present in the result target directory. Saved plot will be overwritten; data will be added on the ``.txt`` file if already present. Detailed information on how to deal with possible ``MemoryError`` are in the script under *Settings* markdown cell. Generally, it is useful to reduce the training matrix dimension. 
 
 - **neural_network.ipynb:**
 

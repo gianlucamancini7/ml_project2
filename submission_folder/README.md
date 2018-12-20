@@ -47,7 +47,7 @@ All the required data to run the algorithms can be found at [this link](https://
 
 
 ## Hardware requirements
-Random forest and ridge regression require at least 32GB of RAM to run with the current settings. To run them with lower memory, follow the instruction of the `README.md` in `/scripts` folder. All the other scripts (neural network included) can operate with 4GB of RAM, but 8GB is advised. 
+Random forest and ridge regression require at least 32GB of RAM to run with the current settings. To run them with lower memory, follow the instructions in `/scripts_regression` folder [README.md](./scripts_regression/README.md). All the other scripts (neural network included) can operate with 4GB of RAM, but 8GB is advised. 
 
 ## Required packages
  - numpy - 1.14.3
