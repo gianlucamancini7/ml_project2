@@ -1,0 +1,13 @@
+-seasonwise:  True     -feature_selection:  False     -output_y_only:  False
+Consistent Split
+
+Pipeline(memory=None,
+     steps=[('standardscaler', StandardScaler(copy=True, with_mean=True, with_std=True)), ('polynomialfeatures', PolynomialFeatures(degree=3, include_bias=True, interaction_only=False)), ('ridgecv', RidgeCV(alphas=array([1.00000e-10, 1.18953e-10, ..., 8.40665e+04, 1.00000e+05]),
+    cv=None, fit_intercept=True, gcv_mode=None, normalize=False,
+    scoring=None, store_cv_values=False))])
+
+Period under optimization:  spring
+Period under optimization:  summer
+Period under optimization:  autumn
+Period under optimization:  winter
+JOB Finished
