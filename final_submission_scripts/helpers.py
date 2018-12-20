@@ -188,49 +188,75 @@ def write_rf_prediction(filetxt,bins,mse,rsq):
     filetxt.write("rsq are:\n %s \n"%rsq)
     return
 
-def plot_height_average(u,u_true,mse,height,path,save=True,name="height_average"): 
+def load_comparable_reault(INPUT_FOLDER,methods):
+    u_compact = []
+    mse_compact = []
+    rsq_compact = []
+    u_true = pd.read_table(INPUT_FOLDER + "magnitude_average_true.txt", sep=",",header = None)
+    u_true = np.array(u_true)
+    u_true = u_true[:,1:7]
+    u_true = u_true.astype(np.float)
+    for method in methods:
+        '''The magnitude_average'''
+        u = pd.read_table(INPUT_FOLDER + method + "/magnitude_average_pred.txt", sep=",",header = None)
+        u = np.array(u)
+        u = u[:,1:7]
+        u = u.astype(np.float)
+        u_compact.append(u)
+        '''The mse and r_squared'''
+        mse = pd.read_table(INPUT_FOLDER + method + "/mses_u_seasons.txt", sep=",",header = None)
+        mse = np.array(mse)
+        mse = mse[:,1:7]
+        mse = mse.astype(np.float)
+        mse_compact.append(mse)
+        rsq = pd.read_table(INPUT_FOLDER + method + "/rsquared_u_seasons.txt", sep=",",header = None)
+        rsq = np.array(rsq)
+        rsq = rsq[:,1:7]
+        rsq = rsq.astype(np.float)
+        rsq_compact.append(rsq)
+    return u_true,u_compact,mse_compact,rsq_compact
+
+def plot_height_average(u_compact, u_true, mse_compact, methods, path = '', name="compare_height_average", save=True): 
     '''For season average'''
     ## u_average, 4 lines for 4 seasons. Increasing height
     ## mse, 4 lines for 4 seasons, Increasing height
+    colors = ['brown','orange','c']
+    height = np.arange(1.5,22,4)
     plt.figure(figsize=(16,12), dpi=300)
-    plt.subplot(221)
-    plt.gca().set_title('Spring')
-    plt.plot(u_true[0,:], height, label='true', color = 'r')
-    plt.errorbar(u[0,:], height, xerr = (np.sqrt(mse[0,:])),label='prediction', color = 'b')
-    plt.xlabel('u')
-    plt.ylabel('height')
-    plt.legend()
-    plt.grid()
-    plt.subplot(222)
-    plt.gca().set_title('Summer')
-    plt.plot(u_true[1,:], height, label='true', color = 'r')
-    plt.errorbar(u[1,:], height, xerr = (np.sqrt(mse[1,:])), label='prediction', color = 'b')
-    plt.xlabel('u')
-    plt.ylabel('height')
-    plt.legend()
-    plt.grid()
-    plt.subplot(223)
-    plt.gca().set_title('Autumn')
-    plt.plot(u_true[2,:], height, label='true', color = 'r')
-    plt.errorbar(u[2,:], height, xerr = (np.sqrt(mse[2,:])), label='prediction', color = 'b')
-    plt.xlabel('u')
-    plt.ylabel('height')
-    plt.legend()
-    plt.grid()
-    plt.subplot(224)
-    plt.gca().set_title('Winter')
-    plt.plot(u_true[3,:], height, label='true', color = 'r')
-    plt.errorbar(u[3,:], height, xerr = (np.sqrt(mse[3,:])), label='prediction', color = 'b')
-    plt.xlabel('u')
-    plt.ylabel('height')
-    plt.legend()
-    plt.grid()
+    for i, season in enumerate(['Spring','Summer','Autumn','Winter']):
+        plt.subplot(221+i)
+        plt.gca().set_title(season)
+        plt.plot(u_true[i,:], height, label='true', color = 'r')
+        for j,method in enumerate(methods):
+            plt.errorbar(u_compact[j][i,:], height, xerr = (np.sqrt(mse_compact[j][i,:])),label='prediction', linestyle='--', marker='o',color = colors[j])
+        plt.xlabel('u')
+        plt.ylabel('height')
+        plt.legend()
+        plt.grid()
     if save:
         plt.savefig(path+name+'.eps',dpi=300)
-        plt.close()
-    else:
-        plt.show()
-#        plt.close()
+    plt.show()
+    return
+
+def plot_method_comparasion(mse_compact, methods, ylabel = 'mse',path = '', name = 'compare_mse', save = True):
+    ## mse_compact: 3*(4*6) matrix, 3 methods, 4 seasons, 6 anometers
+    colors = ['brown','orange','c']  # c
+    plt.figure(figsize=(16,12), dpi=300)
+    plt.suptitle('For u_x and u_y')
+    anem = np.arange(6) + 1
+    for i, season in enumerate(['Spring','Summer','Autumn','Winter']):
+        ax = plt.subplot(221+i)
+        plt.gca().set_title(season)
+        for j,method in enumerate(methods):
+            plt.plot(anem, mse_compact[j][i,:], label=method, linestyle='--', marker='o', color = colors[j]) 
+        plt.xlabel('Anemometer Number')
+        plt.ylabel(ylabel)
+        plt.legend()
+        plt.grid()
+        ax.set_ylim([np.min(mse_compact)-0.5, np.max(mse_compact)+0.5])
+    if save:
+        plt.savefig(path+name+'.eps',dpi=300)
+    plt.show()
     return
 
 def magnitude_avg(arr):
@@ -239,3 +265,4 @@ def magnitude_avg(arr):
         return arr.mean()
     else:
         return np.sqrt(np.sum(np.square(arr),axis=1)).mean()
+    
