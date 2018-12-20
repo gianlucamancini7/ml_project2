@@ -259,7 +259,7 @@ def std_avg(arr):
         return np.sqrt(np.sum(np.square(arr),axis=1)).std()
     return
     
-def plot_height_average(u_compact, u_true, mse_compact, methods, path = '', name="compare_height_average", save=True): 
+def plot_height_average(u_compact, u_true, u_std, mse_compact, methods, path = '', name="compare_height_average", save=True): 
     
     '''
     To obtain the height profile: 
@@ -274,9 +274,11 @@ def plot_height_average(u_compact, u_true, mse_compact, methods, path = '', name
     for i, season in enumerate(['Spring','Summer','Autumn','Winter']):
         plt.subplot(221+i)
         plt.gca().set_title(season)
-        plt.plot(u_true[i,:], height, label='true', color = 'r')
+        #plt.plot(u_true[i,:], height, label='true', color = 'r')
+        plt.errorbar(u_true[i,:], height, xerr = (u_std[i,:]),label='true', linestyle='-', marker='o',color = 'black')
         for j,method in enumerate(methods):
-            plt.errorbar(u_compact[j][i,:], height, xerr = (np.sqrt(mse_compact[j][i,:])),label=(method + 'prediction'), linestyle='--', marker='o',color = colors[j])
+            #plt.errorbar(u_compact[j][i,:], height, xerr = (np.sqrt(mse_compact[j][i,:])),label=(method + 'prediction'), #linestyle='--', marker='o',color = colors[j])
+            plt.plot(u_compact[j][i,:], height, label=(method + '_prediction'), linestyle='--', marker='o',color = colors[j])
         plt.xlabel('u [m/s]')
         plt.ylabel('height [m]')
         plt.legend()
@@ -297,6 +299,11 @@ def load_comparable_reault(INPUT_FOLDER,methods):
     u_true = np.array(u_true)
     u_true = u_true[:,1:7]
     u_true = u_true.astype(np.float)
+    u_std = pd.read_table(INPUT_FOLDER + 'baseline'+ "/magnitude_std_true.txt", sep=",",header = None)
+    u_std = np.array(u_std)
+    u_std = u_std[:,1:7]
+    u_std = u_std.astype(np.float)
+    
     for method in methods:
         '''The magnitude_average'''
         u = pd.read_table(INPUT_FOLDER + method + "/magnitude_average_pred.txt", sep=",",header = None)
@@ -315,7 +322,7 @@ def load_comparable_reault(INPUT_FOLDER,methods):
         rsq = rsq[:,1:7]
         rsq = rsq.astype(np.float)
         rsq_compact.append(rsq)
-    return u_true,u_compact,mse_compact,rsq_compact
+    return u_true,u_compact,u_std,mse_compact,rsq_compact
 
 def plot_method_comparasion(mse_compact, methods, ylabel = 'mse',path = '', name = 'compare_mse', save = True):
     '''
