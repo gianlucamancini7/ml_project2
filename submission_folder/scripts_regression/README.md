@@ -13,9 +13,9 @@ Fall 2018<br>
 
 - **neural_network.ipynb:** provides a simple neural network architecture. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default the notebook output the mean squared errors and $R^2$ for different anemometers for different seasons. On top of that, the mean values of the wind speed at each anemometer is also saved in order to produce the wind speed profile inside the urban canyon. Also the evolution of the train and evaluation mse during the training of the network are saved as well as the visualization of the fitting of the netowork for different anemometers. The results are saved in ``/results/neural_network``.  Saved plot will be overwritten.
 
-- **random_forest.ipynb:**
+- **random_forest.ipynb:** performs the random_forest algorithm for the regression and also for the feature selection at the same time. Description of all the settings of the scripts is contained inside under *Settings* markdown cell. By default the notebook output the mean squared errors and $R^2$ for different anemometers for different seasons. On top of that, the mean values of the wind speed at each anemometer is also saved in order to produce the wind speed profile inside the urban canyon. For the prediction, the visualization of the fitting of the model for different anemometers are saved. For the feature selection, the histograms shows the relative importance of each feature are saved, as well as some text files that recording the importance and the labels of the features. The results are saved in ``/results/random_forest``. Saved plot will be overwritten.
 
-- **result_analysis.ipynb:**
+- **result_analysis.ipynb:** visualise and compare the general performance of the 4 regression methods. It takes the mse, $R^2$, and seasonwise average in the  ``results``. The results are saved in ``/results/results_analysis``.Saved plot will be overwritten.
 
 - **helpers.py:** contains all the functions called in the scripts. It needs to have the same location of the notebooks. 
 
