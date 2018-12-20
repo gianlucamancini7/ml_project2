@@ -17,4 +17,10 @@ Fall 2018<br>
 
 - **result_analysis.ipynb:**
 
+- **helpers.py:** contains all the functions used in the regression scripts. It needs to have the same location at the regression notebooks. 
+
+## Files info
+- **feature_for_ridge.txt:** contains the feature list to run one option of `` ridge_regression.ipynb`` and `` baseline.ipynb``. can be created through ``/scripts_features_selection/random_forest.ipynb``. 
+
+
 *IMPORTANT: All the scripts are set to run with the current folder tree architecture.  Any changes in the structure should be incorporated into the scripts in their respective paths definition.*
