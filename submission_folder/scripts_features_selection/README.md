@@ -11,6 +11,6 @@ Fall 2018<br>
 
 - **helpers.py:** contains all the functions called in the scripts. It needs to have the same location of the notebooks. 
 
-**REMARK:** The feature selection of the random forest is performed inside ``/scripts_regression/ random_forest.ipynb``. Please refer to that file for random forest feature selection.  
+**REMARK:** The feature selection of the random forest is performed inside ``/scripts_regression/random_forest.ipynb``. Please refer to that file for random forest feature selection. ``/scripts_regression/random_forest.ipynb`` output also `` feature_for_ridge_season.txt`` in ``/results/results_analysis``. To use the new file in the baseline and in the ridge regression, move manually and overwrite it in ``/scripts_regression/``.
 
 *IMPORTANT: All the scripts are set to run with the current folder tree architecture.  Any changes in the structure should be incorporated into the scripts in their respective paths definition.*
