@@ -166,7 +166,7 @@ def write_feature_importance(filetxt, importances,feat_labels, important_feature
     for f in range(len(importances)):
         filetxt.write("%2d) %-*s %f \n" % (f + 1, 50, feat_labels[indices[f]], importances[indices[f]]))
     filetxt.write("\n The top 80% important features are: \n")
-    for i in range(len(important_features)):
+    for i in range(len(important_sfeatures)):
         filetxt.write("%s \n" % important_features[i])
     filetxt.write("%i features on %i" % (len(important_features), len(importances)))
     return
@@ -176,16 +176,27 @@ def plot_feature_importance(importances,feat_labels,path,season):
     plt.title("Feature importances for season %s" % season)
     plt.bar(range(len(importances)), importances, color="b", align="center")
     plt.xticks(range(len(importances)), (u'%s' % feat_labels), fontsize=5, rotation=90)
+    plt.setp(plt.xticks()[1], rotation=30)
     plt.subplots_adjust(bottom=0.30)
     plt.grid()
     plt.savefig(path)
     plt.close()
     return
         
-def write_rf_prediction(filetxt,bins,mse,rsq):
-    filetxt.write("bins are:\n %s \n"%bins)
-    filetxt.write("mse are:\n %s \n"%mse)
-    filetxt.write("rsq are:\n %s \n"%rsq)
+def write_rf_prediction(OUTPUT_FOLDER,bins,mse,rsq,season):
+    df = pd.DataFrame(bins[0:1,:])
+    df.join(pd.DataFrame({len(bins):[season]}))
+    df.to_csv(OUTPUT_FOLDER + 'rf' + "/bins_proposal.txt", header=None)
+    
+    mse = np.mean(mse,axis = 0)
+    df = pd.DataFrame(mse[0:1,:])
+    df.join(pd.DataFrame({6:[season]}))
+    df.to_csv(OUTPUT_FOLDER + 'rf' + "/mses_u_seasons.txt", header=None)
+    
+    rsq = np.mean(rsq,axis = 0)
+    df = pd.DataFrame(rsq[0:1,:])
+    df.join(pd.DataFrame({6:[season]}))
+    df.to_csv(OUTPUT_FOLDER + 'rf' + "/rsquared_u_seasons.txt", header=None)
     return
 
 def load_comparable_reault(INPUT_FOLDER,methods):
@@ -228,7 +239,7 @@ def plot_height_average(u_compact, u_true, mse_compact, methods, path = '', name
         plt.gca().set_title(season)
         plt.plot(u_true[i,:], height, label='true', color = 'r')
         for j,method in enumerate(methods):
-            plt.errorbar(u_compact[j][i,:], height, xerr = (np.sqrt(mse_compact[j][i,:])),label='prediction', linestyle='--', marker='o',color = colors[j])
+            plt.errorbar(u_compact[j][i,:], height, xerr = (np.sqrt(mse_compact[j][i,:])),label=(method + 'prediction'), linestyle='--', marker='o',color = colors[j])
         plt.xlabel('u')
         plt.ylabel('height')
         plt.legend()
