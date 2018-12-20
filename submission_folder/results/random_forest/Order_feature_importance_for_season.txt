@@ -1,0 +1,157 @@
+
+ For the Spring: 
+ 1) sonic_temp                                         0.117090 
+ 2) h                                                  0.112198 
+ 3) u_top_y                                            0.072939 
+ 4) u_top_x                                            0.071424 
+ 5) u_top_z                                            0.049581 
+ 6) Net Solar radiation [W/m$^2$]                      0.041793 
+ 7) Pyranometer Lower Irradiance [W/m$^2$]             0.041516 
+ 8) Net Far Infrared radiation [W/m$^2$]               0.041341 
+ 9) Pyranometer Upper Irradiance [W/m$^2$]             0.040663 
+10) Net (total) radiation [W/m$^2$]                    0.040570 
+11) North temperature [°C]                             0.038917 
+12) sonic_temp_top                                     0.038180 
+13) Pyrgeometer Upper Irradiance [W/m$^2$]             0.038141 
+14) Sky temperature [°C]                               0.038020 
+15) West temperature [°C]                              0.037939 
+16) Sensor Ground temperature [°C]                     0.037667 
+17) East temperature [°C]                              0.036688 
+18) South temperature [°C]                             0.036197 
+19) Pyrgeometer Lower Irradiance [W/m$^2$]             0.034582 
+20) Radiometer Ground temperature [°C]                 0.034552 
+
+ The top 80% important features are: 
+sonic_temp 
+h 
+u_top_y 
+u_top_x 
+u_top_z 
+Net Solar radiation [W/m$^2$] 
+Pyranometer Lower Irradiance [W/m$^2$] 
+Net Far Infrared radiation [W/m$^2$] 
+Pyranometer Upper Irradiance [W/m$^2$] 
+Net (total) radiation [W/m$^2$] 
+North temperature [°C] 
+sonic_temp_top 
+Pyrgeometer Upper Irradiance [W/m$^2$] 
+Sky temperature [°C] 
+West temperature [°C] 
+15 features on 20
+ For the Summer: 
+ 1) sonic_temp                                         0.110271 
+ 2) h                                                  0.109578 
+ 3) u_top_y                                            0.071318 
+ 4) u_top_x                                            0.069263 
+ 5) u_top_z                                            0.049802 
+ 6) Net Far Infrared radiation [W/m$^2$]               0.042104 
+ 7) Net Solar radiation [W/m$^2$]                      0.041836 
+ 8) Pyranometer Lower Irradiance [W/m$^2$]             0.041672 
+ 9) Pyranometer Upper Irradiance [W/m$^2$]             0.041125 
+10) Net (total) radiation [W/m$^2$]                    0.041119 
+11) North temperature [°C]                             0.039991 
+12) East temperature [°C]                              0.039253 
+13) West temperature [°C]                              0.039173 
+14) Sensor Ground temperature [°C]                     0.038830 
+15) Sky temperature [°C]                               0.038822 
+16) Pyrgeometer Upper Irradiance [W/m$^2$]             0.038730 
+17) sonic_temp_top                                     0.038177 
+18) South temperature [°C]                             0.037638 
+19) Pyrgeometer Lower Irradiance [W/m$^2$]             0.035666 
+20) Radiometer Ground temperature [°C]                 0.035632 
+
+ The top 80% important features are: 
+sonic_temp 
+h 
+u_top_y 
+u_top_x 
+u_top_z 
+Net Far Infrared radiation [W/m$^2$] 
+Net Solar radiation [W/m$^2$] 
+Pyranometer Lower Irradiance [W/m$^2$] 
+Pyranometer Upper Irradiance [W/m$^2$] 
+Net (total) radiation [W/m$^2$] 
+North temperature [°C] 
+East temperature [°C] 
+West temperature [°C] 
+Sensor Ground temperature [°C] 
+Sky temperature [°C] 
+15 features on 20
+ For the Autumn: 
+ 1) sonic_temp                                         0.114884 
+ 2) h                                                  0.111988 
+ 3) u_top_y                                            0.070101 
+ 4) u_top_x                                            0.068115 
+ 5) u_top_z                                            0.049473 
+ 6) Net Solar radiation [W/m$^2$]                      0.041492 
+ 7) Pyranometer Lower Irradiance [W/m$^2$]             0.041319 
+ 8) Net Far Infrared radiation [W/m$^2$]               0.041226 
+ 9) Pyranometer Upper Irradiance [W/m$^2$]             0.041085 
+10) Sensor Ground temperature [°C]                     0.040684 
+11) Net (total) radiation [W/m$^2$]                    0.040066 
+12) North temperature [°C]                             0.040056 
+13) sonic_temp_top                                     0.039295 
+14) Pyrgeometer Upper Irradiance [W/m$^2$]             0.038215 
+15) Sky temperature [°C]                               0.038205 
+16) East temperature [°C]                              0.037899 
+17) West temperature [°C]                              0.037596 
+18) South temperature [°C]                             0.036728 
+19) Radiometer Ground temperature [°C]                 0.035907 
+20) Pyrgeometer Lower Irradiance [W/m$^2$]             0.035666 
+
+ The top 80% important features are: 
+sonic_temp 
+h 
+u_top_y 
+u_top_x 
+u_top_z 
+Net Solar radiation [W/m$^2$] 
+Pyranometer Lower Irradiance [W/m$^2$] 
+Net Far Infrared radiation [W/m$^2$] 
+Pyranometer Upper Irradiance [W/m$^2$] 
+Sensor Ground temperature [°C] 
+Net (total) radiation [W/m$^2$] 
+North temperature [°C] 
+sonic_temp_top 
+Pyrgeometer Upper Irradiance [W/m$^2$] 
+Sky temperature [°C] 
+15 features on 20
+ For the Winter: 
+ 1) sonic_temp                                         0.112800 
+ 2) h                                                  0.104046 
+ 3) u_top_x                                            0.072474 
+ 4) u_top_y                                            0.072268 
+ 5) u_top_z                                            0.049292 
+ 6) sonic_temp_top                                     0.041760 
+ 7) Pyranometer Lower Irradiance [W/m$^2$]             0.041509 
+ 8) Net Far Infrared radiation [W/m$^2$]               0.040730 
+ 9) Pyranometer Upper Irradiance [W/m$^2$]             0.040644 
+10) North temperature [°C]                             0.040291 
+11) Sensor Ground temperature [°C]                     0.040077 
+12) Net Solar radiation [W/m$^2$]                      0.039990 
+13) Net (total) radiation [W/m$^2$]                    0.038959 
+14) West temperature [°C]                              0.038580 
+15) East temperature [°C]                              0.038572 
+16) South temperature [°C]                             0.038129 
+17) Pyrgeometer Upper Irradiance [W/m$^2$]             0.037961 
+18) Sky temperature [°C]                               0.037851 
+19) Radiometer Ground temperature [°C]                 0.037124 
+20) Pyrgeometer Lower Irradiance [W/m$^2$]             0.036943 
+
+ The top 80% important features are: 
+sonic_temp 
+h 
+u_top_x 
+u_top_y 
+u_top_z 
+sonic_temp_top 
+Pyranometer Lower Irradiance [W/m$^2$] 
+Net Far Infrared radiation [W/m$^2$] 
+Pyranometer Upper Irradiance [W/m$^2$] 
+North temperature [°C] 
+Sensor Ground temperature [°C] 
+Net Solar radiation [W/m$^2$] 
+Net (total) radiation [W/m$^2$] 
+West temperature [°C] 
+East temperature [°C] 
+15 features on 20
