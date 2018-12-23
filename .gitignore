@@ -11,3 +11,4 @@ data_extractor_scripts/average_data_year/radiometer.csv
 data_extractor_scripts/average_data_year/surf_temp.csv
 data_extractor_scripts/data_zip/2018-07-15_Mesures_MoTUS.zip
 data_extractor_scripts/regression_mat_year.csv
+submission_folder/data/regression_mat_year.csv
